@@ -13,19 +13,31 @@
       --shadow:0 12px 30px rgba(28,50,62,.10);--radius:18px;
     }
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:128px}
+    html{scroll-behavior:smooth;scroll-padding-top:18px}
     body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+    body.nav-collapsed{--sidebar-width:0px}
+    body{--sidebar-width:280px}
     a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
     button,input{font:inherit}
-    .hero{color:white;background:linear-gradient(135deg,#c94c2f 0%,#e58b33 38%,#f2c66d 72%,#2f8f84 100%);padding:42px max(20px,calc((100vw - 1440px)/2)) 34px}
+    .hero{color:white;background:linear-gradient(135deg,#c94c2f 0%,#e58b33 38%,#f2c66d 72%,#2f8f84 100%);padding:42px max(20px,calc((100vw - 1440px)/2)) 34px;margin-left:var(--sidebar-width);transition:margin-left .22s ease}
     .hero-kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;opacity:.78}
     .hero h1{font-size:clamp(32px,6vw,62px);line-height:1.02;margin:10px 0 14px;letter-spacing:-.04em}
     .city-intro{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px}
     .city-intro article{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);border-radius:16px;padding:15px 16px;backdrop-filter:blur(8px);box-shadow:0 8px 20px rgba(111,50,18,.10)}
     .city-intro h2{font-size:18px;line-height:1.25;margin:0 0 8px;color:white;letter-spacing:0}
     .city-intro p{margin:0;color:rgba(255,255,255,.9);font-size:14px;line-height:1.55}
-    .sticky-shell{position:sticky;top:0;z-index:30;background:rgba(255,253,249,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 5px 18px rgba(28,50,62,.08)}
-    .journey-switcher{border-bottom:1px solid var(--line)}
+    .toc-toggle{position:fixed;left:14px;top:14px;z-index:60;border:0;border-radius:999px;background:var(--navy);color:white;padding:9px 13px;font-weight:900;box-shadow:var(--shadow);cursor:pointer}
+    .side-toc{position:fixed;inset:0 auto 0 0;width:280px;z-index:50;background:rgba(255,253,249,.98);border-right:1px solid var(--line);box-shadow:10px 0 28px rgba(28,50,62,.10);padding:62px 14px 18px;overflow-y:auto;transition:transform .22s ease}
+    body.nav-collapsed .side-toc{transform:translateX(-100%)}
+    .toc-title{font-weight:950;color:var(--navy);font-size:18px;line-height:1.2;margin:0 0 12px;padding:0 8px}
+    .toc-group{border-top:1px solid var(--line);padding:10px 0}
+    .toc-parent,.toc-child{display:flex;align-items:center;border-radius:10px;text-decoration:none!important}
+    .toc-parent{min-height:36px;padding:8px 10px;color:var(--navy);font-weight:900;background:#edf3f4}
+    .toc-parent.active-section{background:var(--navy);color:white}
+    .toc-children{display:grid;gap:4px;margin-top:6px;padding-left:10px}
+    .toc-child{padding:6px 9px;color:#52636d;font-size:13px;line-height:1.35;border-left:2px solid transparent}
+    .toc-child:hover,.toc-child.active-child{background:#fff7e8;color:#9a5a12;border-left-color:var(--sun)}
+    .toc-backdrop{position:fixed;inset:0;z-index:45;background:rgba(18,35,44,.34);opacity:0;pointer-events:none;transition:opacity .22s ease}
     .switcher-inner{max-width:1440px;margin:auto;padding:8px 18px;display:flex;gap:12px;overflow-x:auto;scrollbar-width:none}
     .date-strip{margin:8px 0 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.72);overflow:hidden}
     .date-strip .switcher-inner{padding:8px 10px}
@@ -35,16 +47,7 @@
     .switch-days{display:flex;gap:5px}
     .switch-days a{white-space:nowrap;background:white;border:1px solid #cbd8dd;padding:5px 8px;border-radius:8px;color:var(--ink);font-size:12px}
     .switch-days a:hover,.switch-days a.active{background:var(--sun);border-color:var(--sun);text-decoration:none}
-    .topbar-inner{max-width:1440px;margin:auto;padding:7px 18px;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
-    .topbar a{white-space:nowrap;background:#edf3f4;color:var(--navy);padding:7px 11px;border-radius:999px;font-weight:700;font-size:13px}
-    .topbar a:hover,.topbar a.active-section{background:var(--navy);color:white;text-decoration:none}
-    .nav-sep{height:24px;width:1px;background:#d6c5aa;flex:0 0 auto;margin:0 3px}
-    .nav-cluster{display:flex;align-items:center;gap:5px;white-space:nowrap;background:#fff7e8;border:1px solid #ead2a7;border-radius:999px;padding:3px 5px 3px 8px}
-    .nav-parent{background:transparent!important;color:#9a5a12!important;padding:3px 3px 3px 0!important;font-weight:900!important;font-size:12px!important}
-    .nav-parent.active-section{background:var(--navy)!important;color:white!important;padding:4px 8px!important}
-    .nav-label{white-space:nowrap;color:#9a5a12;font-weight:900;font-size:12px}
-    .topbar .nav-child{background:white;border:1px solid #ead2a7;padding:4px 8px;font-size:12px;font-weight:750}
-    main{max-width:1440px;margin:auto;padding:10px 18px 80px}
+    main{max-width:1440px;margin:auto;padding:10px 18px 80px;margin-left:var(--sidebar-width);transition:margin-left .22s ease}
     .section{padding-top:26px}
     .section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 0 16px}
     .section-title h2{font-size:clamp(26px,4vw,40px);line-height:1.1;margin:0;color:var(--navy);letter-spacing:-.03em}
@@ -58,13 +61,12 @@
     .day-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;max-width:560px}
     .day-actions a,.outline-btn{border:1px solid #b9cbd2;border-radius:10px;padding:8px 11px;background:white;font-weight:750}
     .priority{color:#773f04;background:#f8e5bb;padding:7px 11px;border-radius:10px;font-weight:800}
-    .period-header,.period-row{display:grid;grid-template-columns:88px minmax(500px,1fr) minmax(270px,.48fr)}
-    .period-header{position:sticky;top:102px;z-index:8;background:var(--navy);color:white;font-size:13px;font-weight:850}
-    .period-header span{padding:10px 14px;border-right:1px solid rgba(255,255,255,.16)}
-    .period-row>div{padding:16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .period-row:last-child>div{border-bottom:0}
-    .period-label{font-weight:900;text-align:center;background:var(--morning);display:flex;align-items:center;justify-content:center}
-    .period-row:nth-child(2) .period-label{background:var(--afternoon)}.period-row:nth-child(3) .period-label{background:var(--night)}
+    .day-table-wrap{border-width:1px 0 0;border-radius:0 0 var(--radius) var(--radius)}
+    .day-table{min-width:880px;table-layout:fixed}
+    .day-table th:nth-child(1),.day-table td:nth-child(1){width:90px}
+    .day-table th:nth-child(3),.day-table td:nth-child(3){width:30%}
+    .period-label{font-weight:900;text-align:center;background:var(--morning);vertical-align:middle!important}
+    .day-table tbody tr:nth-child(2) .period-label{background:var(--afternoon)}.day-table tbody tr:nth-child(3) .period-label{background:var(--night)}
     .route-flow{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
     .stop{font-weight:760;color:var(--navy)}.duration{color:#66562e;font-weight:650}
     .ticket-link{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
@@ -87,9 +89,9 @@
     .tag{font-size:11px;font-weight:900;background:#f3e4be;color:#7d5108;border-radius:999px;padding:4px 8px;white-space:nowrap}
     .area{color:var(--teal);font-weight:800;font-size:13px;margin-top:7px}
     .muted,.mini-meta{color:var(--muted);font-size:13px}.mini-meta{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
-    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:white;-webkit-overflow-scrolling:touch}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:white;-webkit-overflow-scrolling:touch;max-height:min(76vh,780px)}
     .data-table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.45}
-    .data-table th{background:var(--navy);color:white;text-align:left;font-size:12px;letter-spacing:.02em;white-space:nowrap}
+    .data-table th{position:sticky;top:0;z-index:5;background:var(--navy);color:white;text-align:left;font-size:12px;letter-spacing:.02em;white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.12),0 2px 8px rgba(18,59,82,.18)}
     .data-table th,.data-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
     .data-table tbody tr:last-child td{border-bottom:0}
     .data-table tbody tr:nth-child(even){background:#f8faf9}
@@ -123,21 +125,27 @@
     .back-top{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;box-shadow:var(--shadow);font-weight:900;z-index:10}
     [hidden]{display:none!important}
     @media(max-width:1050px){
-      .period-header,.period-row{grid-template-columns:78px minmax(390px,1fr) 240px}
+      body{--sidebar-width:248px}.side-toc{width:248px}.day-table{min-width:760px}.day-table th:nth-child(3),.day-table td:nth-child(3){width:250px}
     }
     @media(max-width:760px){
-      html{scroll-padding-top:112px}body{font-size:14px}.hero{padding:28px 18px 24px}.hero h1{font-size:38px}
+      html{scroll-padding-top:14px}body{font-size:14px;--sidebar-width:0px}.hero{padding:64px 18px 24px;margin-left:0}.hero h1{font-size:38px}
+      .side-toc{width:min(86vw,330px);transform:translateX(-100%);padding-top:62px}
+      body.toc-open .side-toc{transform:translateX(0)}
+      body.toc-open .toc-backdrop{opacity:1;pointer-events:auto}
+      body.nav-collapsed .side-toc{transform:translateX(-100%)}
       .city-intro{grid-template-columns:1fr;gap:10px;margin-top:18px}.city-intro article{padding:13px 14px}
       .switcher-inner{padding:7px 12px}.switch-group strong{font-size:12px}.switch-days a{padding:5px 7px}
       .date-strip{margin:8px -1px 14px}
-      .topbar-inner{padding:6px 12px}main{padding:8px 12px 70px}
-      .topbar .nav-child{display:none}.nav-cluster{padding:3px 7px}.nav-parent{padding:4px 6px!important}
+      main{padding:8px 12px 70px;margin-left:0}
       .section-title{display:block}
       .day-head{display:block;padding:18px}.day-actions{justify-content:flex-start;margin-top:13px}.priority{width:100%}
-      .period-header{display:none}.period-row{display:block;border-top:1px solid var(--line)}.period-row>div{border-right:0;border-bottom:0;padding:13px 15px}
-      .period-label{display:block;text-align:left;font-size:16px;padding:9px 15px!important}
+      .table-wrap{max-height:70vh}
+      .day-table{min-width:720px}
+      .day-table th:nth-child(1),.day-table td:nth-child(1){width:76px}
+      .day-table th:nth-child(3),.day-table td:nth-child(3){width:230px}
+      .period-label{text-align:left;font-size:14px}
       .route-flow{display:block}.stop,.move{display:inline;line-height:2}.move{margin:0 3px;padding:3px 5px}
-      .meal-cell{background:#faf8f3;margin:0 12px 13px;border-radius:10px}
+      .meal-cell{background:#faf8f3}
       .city-group{padding:13px;margin-left:-1px;margin-right:-1px}.city-group-head{align-items:flex-start}.city-group-head .outline-btn{font-size:12px}
       .route-ref-grid{grid-template-columns:1fr}
       .data-table{font-size:12px}.data-table th,.data-table td{padding:8px}
@@ -150,7 +158,7 @@
       .back-top{bottom:12px;right:12px}
     }
     @media print{
-      .sticky-shell,.back-top{display:none}body{background:white}main{max-width:none}.day-card,.route-ref{box-shadow:none;break-inside:avoid}a{color:inherit}
+      .side-toc,.toc-toggle,.toc-backdrop,.back-top{display:none}body{background:white;--sidebar-width:0px}main,.hero{max-width:none;margin-left:0}.day-card,.route-ref{box-shadow:none;break-inside:avoid}a{color:inherit}
     }
   </style>
 </head>
@@ -177,17 +185,32 @@
       </article>
     </div>
   </header>
-  <div class="sticky-shell">
-    <nav class="topbar" aria-label="页面导航">
-      <div class="topbar-inner">
-        <a href="#overview" data-section-link="overview">行程概览</a><a href="#itinerary" data-section-link="itinerary">每日行程</a><span class="nav-sep"></span>
-        <span class="nav-cluster"><a class="nav-parent" href="#restaurants" data-section-link="restaurants">餐厅</a><a class="nav-child" href="#restaurants-barcelona">巴塞罗那</a><a class="nav-child" href="#restaurants-seville">塞维利亚</a><a class="nav-child" href="#restaurants-cordoba">科尔多瓦</a><a class="nav-child" href="#restaurants-granada">格拉纳达</a></span>
-        <span class="nav-cluster"><a class="nav-parent" href="#hotels" data-section-link="hotels">住宿</a><a class="nav-child" href="#hotels-barcelona">巴塞罗那</a><a class="nav-child" href="#hotels-seville">塞维利亚</a><a class="nav-child" href="#hotels-granada">格拉纳达</a></span>
-        <span class="nav-sep"></span>
-        <a href="#pdf-routes" data-section-link="pdf-routes">Lonely Planet路线</a><a href="#prep" data-section-link="prep">行前准备</a><a href="#booking-followup" data-section-link="booking-followup">预订跟进</a><a href="#practical" data-section-link="practical">厕所攻略</a>
-      </div>
-    </nav>
-  </div>
+  <button class="toc-toggle" type="button" aria-label="显示或隐藏目录" aria-expanded="true">目录</button>
+  <div class="toc-backdrop" hidden></div>
+  <nav class="side-toc" aria-label="页面目录">
+    <div class="toc-title">Spain 2026<br>行程目录</div>
+    <div class="toc-group">
+      <a class="toc-parent" href="#overview" data-section-link="overview">行程概览</a>
+    </div>
+    <div class="toc-group">
+      <a class="toc-parent" href="#itinerary" data-section-link="itinerary">每日行程</a>
+      <div class="toc-children"><a class="toc-child" href="#day-2026-09-26">9.26 周六 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-27">9.27 周日 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-28">9.28 周一 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-29">9.29 周二 · 塞维利亚</a><a class="toc-child" href="#day-2026-09-30">9.30 周三 · 塞维利亚</a><a class="toc-child" href="#day-2026-10-01">10.1 周四 · 塞维利亚</a><a class="toc-child" href="#day-2026-10-02">10.2 周五 · 科尔多瓦</a><a class="toc-child" href="#day-2026-10-03">10.3 周六 · 格拉纳达</a><a class="toc-child" href="#day-2026-10-04">10.4 周日 · 格拉纳达</a><a class="toc-child" href="#day-2026-10-05">10.5 周一 · 巴塞罗那</a><a class="toc-child" href="#day-2026-10-06">10.6 周二 · 巴塞罗那</a></div>
+    </div>
+    <div class="toc-group">
+      <a class="toc-parent" href="#restaurants" data-section-link="restaurants">餐厅推荐</a>
+      <div class="toc-children"><a class="toc-child" href="#restaurants-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" href="#restaurants-seville">塞维利亚 Seville</a><a class="toc-child" href="#restaurants-cordoba">科尔多瓦 Córdoba</a><a class="toc-child" href="#restaurants-granada">格拉纳达 Granada</a></div>
+    </div>
+    <div class="toc-group">
+      <a class="toc-parent" href="#hotels" data-section-link="hotels">住宿推荐</a>
+      <div class="toc-children"><a class="toc-child" href="#hotels-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" href="#hotels-seville">塞维利亚 Seville</a><a class="toc-child" href="#hotels-granada">格拉纳达 Granada</a></div>
+    </div>
+    <div class="toc-group">
+      <a class="toc-parent" href="#pdf-routes" data-section-link="pdf-routes">Lonely Planet路线</a>
+      <a class="toc-parent" href="#prep" data-section-link="prep">行前准备</a>
+      <a class="toc-parent" href="#booking-followup" data-section-link="booking-followup">预订跟进</a>
+      <a class="toc-parent" href="#practical" data-section-link="practical">厕所攻略</a>
+    </div>
+  </nav>
   <main>
     <section class="section" id="overview">
       <div class="section-title"><div><h2>行程概览</h2><p>先看每日主线：日期、城市、当天重点、住宿城市与主要交通。点日期可跳到当天详细动线。</p></div></div>
@@ -301,37 +324,39 @@
           <div class="day-meta">住：巴塞罗那 Barcelona · 推荐区域：扩展区 / 加泰罗尼亚广场 Eixample / Plaça de Catalunya</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">国际航程中</span> <a class="inline-map" href="https://www.google.com/maps/search/?api=1&amp;query=Barcelona-El+Prat+Airport" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>落地前不安排活动。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无需安排餐厅</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无需安排餐厅</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">巴塞罗那-埃尔普拉特机场 Barcelona-El Prat Airport<span class="duration">（入境+取行李60–90分钟）</span></span><span class="move">→ 出租车约15km / 30–40分钟；备选机场巴士 Aerobús 约35分钟 →</span><span class="stop">酒店 Hotel<span class="duration">（入住约30分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Barcelona-El+Prat+Airport&amp;destination=Pla%C3%A7a+de+Catalunya+Barcelona&amp;travelmode=driving" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>14:25抵达；给行李和入境预留波动时间。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Bodega Bonay / Casa Amàlia</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Bodega Bonay / Casa Amàlia</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">加泰罗尼亚广场 Plaça de Catalunya<span class="duration">（15–20分钟）</span></span><span class="move">→ 步行约0.6km / 8分钟 →</span><span class="stop">兰布拉大道北段 La Rambla<span class="duration">（约30分钟）</span></span><span class="move">→ 步行约0.8km / 10–15分钟 →</span><span class="stop">哥特区外围 Barri Gòtic<span class="duration">（45–60分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Pla%C3%A7a+de+Catalunya+Barcelona&amp;destination=Catedral+de+Barcelona&amp;travelmode=walking&amp;waypoints=La+Rambla+Barcelona" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>广场、兰布拉大道与哥特区外围无需预约；兰布拉大道 La Rambla 注意扒手。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>哥特区 Barri Gòtic：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Can+Culleretes%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Can Culleretes</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Mono</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Alcoba+Azul%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Alcoba Azul</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>哥特区 Barri Gòtic：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Can+Culleretes%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Can Culleretes</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Mono</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Alcoba+Azul%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Alcoba Azul</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-09-27" data-date="2026-09-27" data-search="巴塞罗那 Barcelona 扩展区 Eixample">
@@ -342,37 +367,39 @@
           <div class="day-meta">住：巴塞罗那 Barcelona · 推荐区域：扩展区 Eixample</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://tickets.sagradafamilia.org/ca" target="_blank" rel="noopener" title="打开官方订票页面">圣家堂 La Sagrada Família<span class="duration">（2–2.5小时）</span></a><span class="move">→ 步行约0.5km / 8分钟 →</span><span class="stop">圣胡安大道 Passeig de Sant Joan<span class="duration">（咖啡/散步30–45分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=La+Sagrada+Fam%C3%ADlia+Barcelona&amp;destination=Passeig+de+Sant+Joan+Barcelona&amp;travelmode=walking" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>订上午最早可接受时段，至少提前15分钟到。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣家堂 / 扩展区 Sagrada Família / Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Norte / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣家堂 / 扩展区 Sagrada Família / Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Norte / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://museupicassobcn.cat/en/plan-your-visit/buy-tickets-and-opening-hours" target="_blank" rel="noopener" title="打开官方订票页面">毕加索博物馆 Museu Picasso<span class="duration">（1.5–2小时）</span></a><span class="move">→ 步行约0.3km / 5分钟 →</span><span class="stop">海洋圣母圣殿 Basílica de Santa Maria del Mar<span class="duration">（30–45分钟）</span></span><span class="move">→ 步行约0.3km / 5分钟 →</span><span class="stop">博恩区 / 博恩大道 El Born / Passeig del Born<span class="duration">（45–60分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Museu+Picasso+Barcelona&amp;destination=Passeig+del+Born+Barcelona&amp;travelmode=walking&amp;waypoints=Bas%C3%ADlica+de+Santa+Maria+del+Mar+Barcelona" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>毕加索博物馆 Museu Picasso 全年周一闭馆，因此前移到周日。若足球为下午场，优先比赛。（参考<a class="inline-ref" href="#lp-bcn-day1">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>博恩区 El Born / Passeig del Born：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Mono</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+del+Pla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar del Pla</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Fismuler%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Fismuler</a>；晚些可选 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paradiso%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paradiso</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>博恩区 El Born / Passeig del Born：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Mono</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+del+Pla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar del Pla</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Fismuler%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Fismuler</a>；晚些可选 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paradiso%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paradiso</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://www.fcbarcelona.com/en/tickets/football" target="_blank" rel="noopener" title="打开官方订票页面">足球赛 Football match<span class="duration">（如有比赛，含往返约3–4小时）</span></a><span class="move">→ 若无比赛：从博恩区 El Born 乘地铁或出租车前往扩展区 Eixample，约2.5km / 15–20分钟 →</span><span class="stop">扩展区 Eixample 晚餐<span class="duration">（无比赛时1.5–2小时）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Passeig+del+Born+Barcelona&amp;destination=Eixample+Barcelona&amp;travelmode=transit" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>赛程公布前不要锁不可取消的晚餐；体力好再把 Gaixample 或 La Textil 当夜生活备选。（参考<a class="inline-ref" href="#lp-bcn-day1">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无比赛：Esquerra de L’Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Besta%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Besta</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gresca%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Gresca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paco+Meralgo%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paco Meralgo</a>；酒吧 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sips%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Sips</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Libertine+Barcelona" target="_blank" rel="noopener">Libertine</a>；体力好再考虑 Gaixample / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Textil+Barcelona" target="_blank" rel="noopener">La Textil</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无比赛：Esquerra de L’Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Besta%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Besta</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gresca%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Gresca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paco+Meralgo%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paco Meralgo</a>；酒吧 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sips%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Sips</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Libertine+Barcelona" target="_blank" rel="noopener">Libertine</a>；体力好再考虑 Gaixample / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Textil+Barcelona" target="_blank" rel="noopener">La Textil</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-09-28" data-date="2026-09-28" data-search="巴塞罗那 Barcelona 扩展区 Eixample">
@@ -383,37 +410,39 @@
           <div class="day-meta">住：巴塞罗那 Barcelona · 推荐区域：扩展区 Eixample</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://catedralbcn.org/en/" target="_blank" rel="noopener" title="打开官方订票页面">巴塞罗那主教座堂 Catedral de Barcelona<span class="duration">（1–1.5小时）</span></a><span class="move">→ 步行约0.2–0.4km →</span><span class="stop">古罗马巴塞罗那 Old Barcino<span class="duration">（精简步行1–1.5小时）</span></span><span class="move">→ 步行约0.2km →</span><span class="stop">犹太区小巷 El Call<span class="duration">（20–30分钟）</span></span><span class="move">→ 步行约0.7km / 10分钟 →</span><span class="stop">兰布拉大道 La Rambla<span class="duration">（约30分钟）</span></span><span class="move">→ 步行约0.3km / 5分钟 →</span><span class="stop">博盖利亚市场 Mercat de la Boqueria<span class="duration">（45–60分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Catedral+de+Barcelona&amp;destination=Mercat+de+la+Boqueria+Barcelona&amp;travelmode=walking&amp;waypoints=Temple+of+Augustus+Barcelona%7CEl+Call+Barcelona%7CLa+Rambla+Barcelona" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>Lonely Planet建议老城与市场尽早去；博盖利亚市场无需预约，全程看好随身物品。（参考<a class="inline-ref" href="#lp-bcn-day1">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>博盖利亚市场 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercat+de+la+Boqueria%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Mercat de la Boqueria</a>：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Quim%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">El Quim</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Kiosko+Universal%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Kiosko Universal</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Quiosc+Modern%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Quiosc Modern</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>博盖利亚市场 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercat+de+la+Boqueria%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Mercat de la Boqueria</a>：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Quim%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">El Quim</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Kiosko+Universal%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Kiosko Universal</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Quiosc+Modern%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bar Quiosc Modern</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">格拉西亚大道 Passeig de Gràcia<span class="duration">（20–30分钟）</span></span><span class="move">→ 地铁约1.6km / 10分钟，或步行25分钟 →</span><a class="stop ticket-link" href="https://www.casabatllo.es/" target="_blank" rel="noopener" title="打开官方订票页面">巴特罗之家 Casa Batlló<span class="duration">（外观/内观1–1.5小时）</span></a><span class="move">→ 步行约0.5km / 7分钟 →</span><a class="stop ticket-link" href="https://www.lapedrera.com/" target="_blank" rel="noopener" title="打开官方订票页面">米拉之家 La Pedrera / Casa Milà<span class="duration">（外观/内观45–90分钟）</span></a><span class="move">→ 公交/出租车约3.5km / 20–30分钟 →</span><a class="stop ticket-link" href="https://parkguell.barcelona/en/buy-tickets" target="_blank" rel="noopener" title="打开官方订票页面">桂尔公园 Park Güell<span class="duration">（1.5–2小时）</span></a> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mercat+de+la+Boqueria+Barcelona&amp;destination=Park+G%C3%BCell+Barcelona&amp;travelmode=transit&amp;waypoints=Casa+Batll%C3%B3+Barcelona%7CLa+Pedrera-Casa+Mil%C3%A0+Barcelona" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>巴特罗之家 Casa Batlló / 米拉之家 La Pedrera 建议一馆内观、一馆外观。Park Güell需提前网订。参考<a class="inline-ref" href="#lp-bcn-day2">Lonely Planet原始推荐路线</a>，根据行程精简，可按需调整。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 / 格拉西亚 Eixample / Gràcia：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Besta%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Besta</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gresca%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Gresca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 / 格拉西亚 Eixample / Gràcia：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Besta%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Besta</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gresca%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Gresca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">格拉西亚区 Gràcia<span class="duration">（广场散步45–60分钟）</span></span><span class="move">→ 从Park Güell下坡/公交约1.5–2.5km / 15–25分钟 →</span><span class="stop">格拉西亚 Gràcia 晚餐<span class="duration">（约1.5小时）</span></span><span class="move">→ 地铁/出租车回酒店约2–4km / 15–25分钟 →</span><span class="stop">酒店 Hotel<span class="duration">（返回休息）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Park+G%C3%BCell+Barcelona&amp;destination=Eixample+Barcelona&amp;travelmode=transit&amp;waypoints=Pla%C3%A7a+del+Sol+Barcelona" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>若Park Güell订到较晚时段，晚餐就放Gràcia；可顺手喝一杯开胃酒 vermouth。为次日飞行留体力，建议22:00前结束。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉西亚 Gràcia：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a> / Lluritu / La Panxa del Bisbe；或回 Esquerra de L’Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paco+Meralgo%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paco Meralgo</a> / Morro Fi</div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉西亚 Gràcia：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Pubilla%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">La Pubilla</a> / Lluritu / La Panxa del Bisbe；或回 Esquerra de L’Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Paco+Meralgo%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Paco Meralgo</a> / Morro Fi</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-09-29" data-date="2026-09-29" data-search="巴塞罗那 Barcelona → 塞维利亚 Seville 圣十字区 / 中心区 / 阿雷纳尔区 Santa Cruz / Centro / El Arenal">
@@ -424,37 +453,39 @@
           <div class="day-meta">住：塞维利亚 Seville · 推荐区域：圣十字区 / 中心区 / 阿雷纳尔区 Santa Cruz / Centro / El Arenal</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">Vall Parc 网球 Tennis<span class="duration">（约2小时）</span></span><span class="move">→ 出租车约6–8km / 20–30分钟 →</span><span class="stop">酒店 Hotel<span class="duration">（洗澡整理约45分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Eixample+Barcelona&amp;destination=Vall+Parc+Barcelona&amp;travelmode=driving" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>提前确认场地、球拍租赁与取消规则。住宿可能要求10:00退房，注意洗澡整理和退房时间。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Oma Bistró / Bodega Bonay</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>扩展区 Eixample：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Funky+Bakers+Eatery%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Funky Bakers Eatery</a> / Oma Bistró / Bodega Bonay</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">酒店退房 Hotel check-out<span class="duration">（约30分钟）</span></span><span class="move">→ 出租车约15km / 30–40分钟 →</span><span class="stop">巴塞罗那机场 BCN<span class="duration">（值机安检建议2小时）</span></span><span class="move">→ 飞机 Flight →</span><span class="stop">塞维利亚机场 SVQ<span class="duration">（飞行约1小时40分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Pla%C3%A7a+de+Catalunya+Barcelona&amp;destination=Seville+Airport&amp;travelmode=transit&amp;waypoints=Barcelona-El+Prat+Airport" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>退房后直接去机场，不寄存行李；订票后补充具体航班时间。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机场用餐；不安排市区餐厅</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机场用餐；不安排市区餐厅</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">塞维利亚机场 Seville Airport</span><span class="move">→ 出租车约10km / 20–30分钟 →</span><span class="stop">酒店 Hotel<span class="duration">（入住约30分钟）</span></span><span class="move">→ 步行约0.3–1km →</span><span class="stop">圣十字区 / 中心区 Santa Cruz / Centro<span class="duration">（tapas约1.5小时）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Seville+Airport&amp;destination=Barrio+de+Santa+Cruz+Seville&amp;travelmode=driving" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>抵达晚则只选酒店步行10分钟内餐厅；10月有葡萄收获与 jamón 火腿季节感，推荐在点餐时融入 sherry、本地葡萄酒和火腿。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣十字区 / 中心区 Santa Cruz / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Rinconcillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">El Rinconcillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Alfalfa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bar Alfalfa</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣十字区 / 中心区 Santa Cruz / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Rinconcillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">El Rinconcillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Alfalfa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bar Alfalfa</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-09-30" data-date="2026-09-30" data-search="塞维利亚 Seville 圣十字区 / 中心区 Santa Cruz / Centro">
@@ -465,37 +496,39 @@
           <div class="day-meta">住：塞维利亚 Seville · 推荐区域：圣十字区 / 中心区 Santa Cruz / Centro</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://www.alcazarsevilla.org/" target="_blank" rel="noopener" title="打开官方订票页面">塞维利亚王宫 Real Alcázar<span class="duration">（2.5–3小时）</span></a><span class="move">→ 王宫内部步行约2–3km →</span><span class="stop">王宫花园 Jardines del Real Alcázar<span class="duration">（含在总时长内）</span></span> <a class="inline-map" href="https://www.google.com/maps/search/?api=1&amp;query=Real+Alc%C3%A1zar+de+Sevilla" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>建议9:30入场；带与票面一致证件。<a class="inline-ref" href="#lp-svq-alcazar">Lonely Planet原始推荐路线</a>建议王宫与大教堂分日。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣十字区 / 大教堂区 Santa Cruz / Cathedral：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Antigua Taberna de Las Escobas</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>圣十字区 / 大教堂区 Santa Cruz / Cathedral：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Antigua Taberna de Las Escobas</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">印度群岛总档案馆 Archivo General de Indias<span class="duration">（45–60分钟）</span></span><span class="move">→ 步行约0.2km / 3分钟 →</span><span class="stop">圣十字区 Barrio de Santa Cruz<span class="duration">（60–90分钟）</span></span><span class="move">→ 步行约0.7km / 10分钟 →</span><a class="stop ticket-link" href="https://museodelbaileflamenco.com/en/the-museum-of-flamenco-dance/" target="_blank" rel="noopener" title="打开官方订票页面">弗拉门戈舞蹈博物馆 Museo del Baile Flamenco<span class="duration">（60–75分钟）</span></a> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Real+Alc%C3%A1zar+de+Sevilla&amp;destination=Museo+del+Baile+Flamenco+Seville&amp;travelmode=walking&amp;waypoints=Archivo+General+de+Indias+Seville%7CBarrio+de+Santa+Cruz+Seville" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>印度群岛总档案馆通常免费、无需预约；圣十字区宅邸 Palaces of Barrio de Santa Cruz 作为散步时的建筑线索，不单独买票。舞蹈博物馆建议提前购票。（参考<a class="inline-ref" href="#lp-svq-alcazar">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+D%C3%ADaz-Salazar%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Díaz-Salazar</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=PETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">PETRA</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+D%C3%ADaz-Salazar%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Díaz-Salazar</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=PETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">PETRA</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://museodelbaileflamenco.com/en/the-museum-of-flamenco-dance/" target="_blank" rel="noopener" title="打开官方订票页面">弗拉门戈演出 Flamenco show<span class="duration">（60–90分钟）</span></a><span class="move">→ 选择中心场馆，步行约0–1km →</span><span class="stop">中心区 Centro 晚餐<span class="duration">（60–90分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Museo+del+Baile+Flamenco+Seville&amp;destination=Seville+Centro&amp;travelmode=walking" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>可选 Museo del Baile Flamenco / Casa de la Memoria / La Casa del Flamenco。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 / 阿雷纳尔区 Centro / El Arenal：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=PETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">PETRA</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Brunilda</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Mamarracha</a>；<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Carboner%C3%ADa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Carbonería</a> 后可简餐</div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 / 阿雷纳尔区 Centro / El Arenal：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=PETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">PETRA</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Brunilda</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Mamarracha</a>；<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Carboner%C3%ADa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Carbonería</a> 后可简餐</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-01" data-date="2026-10-01" data-search="塞维利亚 Seville 阿雷纳尔区 / 圣十字区 El Arenal / Santa Cruz">
@@ -506,37 +539,39 @@
           <div class="day-meta">住：塞维利亚 Seville · 推荐区域：阿雷纳尔区 / 圣十字区 El Arenal / Santa Cruz</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">西班牙广场 Plaza de España<span class="duration">（45–60分钟）</span></span><span class="move">→ 步行约0.2km →</span><span class="stop">玛丽亚·路易莎公园 Parque de María Luisa<span class="duration">（约60分钟）</span></span><span class="move">→ 步行约1.8km / 25分钟，或出租车10分钟 →</span><a class="stop ticket-link" href="https://www.catedraldesevilla.es/en/cultural-visit/schedules-and-rates/" target="_blank" rel="noopener" title="打开官方订票页面">塞维利亚主教座堂与希拉尔达塔 Catedral de Sevilla &amp; Giralda<span class="duration">（75–90分钟）</span></a> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Plaza+de+Espa%C3%B1a+Seville&amp;destination=Catedral+de+Sevilla&amp;travelmode=walking&amp;waypoints=Parque+de+Mar%C3%ADa+Luisa+Seville" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>西班牙广场与公园无需预约；大教堂建议预订11:00–11:30，已与王宫分日。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>大教堂区 Cathedral：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Antigua Taberna de Las Escobas</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>大教堂区 Cathedral：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Casa Morales</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bodega Santa Cruz</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Antigua Taberna de Las Escobas</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">午餐 Lunch<span class="duration">（约60分钟）</span></span><span class="move">→ 步行约0.9km / 12分钟 →</span><span class="stop">黄金塔 Torre del Oro<span class="duration">（45–60分钟）</span></span><span class="move">→ 沿河步行约1.2km / 15–20分钟 →</span><span class="stop">瓜达尔基维尔河岸 Río Guadalquivir<span class="duration">（约45分钟）</span></span><span class="move">→ 步行 →</span><span class="stop">特里亚纳桥 Puente de Triana<span class="duration">（约15分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Catedral+de+Sevilla&amp;destination=Puente+de+Triana+Seville&amp;travelmode=walking&amp;waypoints=Torre+del+Oro+Seville" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>黄金塔排队时可只看外观，把时间留给河岸与特里亚纳。（参考<a class="inline-ref" href="#lp-svq-river">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿雷纳尔区 El Arenal：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Postiguillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bar Postiguillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Brunilda</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Mamarracha</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿雷纳尔区 El Arenal：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Postiguillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Bar Postiguillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">La Brunilda</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Mamarracha</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">特里亚纳陶瓷区 Triana ceramics district<span class="duration">（约60分钟）</span></span><span class="move">→ 步行约0.3–0.8km →</span><span class="stop">特里亚纳 Triana tapas<span class="duration">（1.5–2小时）</span></span><span class="move">→ 出租车约2km / 10–15分钟 →</span><span class="stop">酒店 Hotel</span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Puente+de+Triana+Seville&amp;destination=Las+Golondrinas+Triana+Seville&amp;travelmode=walking&amp;waypoints=Centro+Cer%C3%A1mica+Triana+Seville" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>Las Golondrinas建议早到；Alfarería 21建议预约。（参考<a class="inline-ref" href="#lp-svq-river">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>特里亚纳区 Triana：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Las+Golondrinas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Las Golondrinas</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Alfarer%C3%ADa+21%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Alfarería 21</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Sella%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">El Sella</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>特里亚纳区 Triana：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Las+Golondrinas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Las Golondrinas</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Alfarer%C3%ADa+21%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">Alfarería 21</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Sella%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">El Sella</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-02" data-date="2026-10-02" data-search="塞维利亚 Seville → 科尔多瓦 Córdoba → 格拉纳达 Granada 中心区 / 新广场 Centro / Plaza Nueva">
@@ -547,37 +582,39 @@
           <div class="day-meta">住：格拉纳达 Granada · 推荐区域：中心区 / 新广场 Centro / Plaza Nueva</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">塞维利亚圣胡斯塔站 Sevilla Santa Justa<span class="duration">（提前30分钟）</span></span><span class="move">→ 火车 Train →</span><span class="stop">科尔多瓦站 Córdoba Station<span class="duration">（火车45–60分钟）</span></span><span class="move">→ 站内/附近 →</span><span class="stop">行李寄存 Luggage storage<span class="duration">（约20分钟）</span></span><span class="move">→ 出租车约2.3km / 10分钟 →</span><a class="stop ticket-link" href="https://tickets.mezquita-catedraldecordoba.es/zh-Hans-US/458/10009" target="_blank" rel="noopener" title="打开官方订票页面">科尔多瓦清真寺主教座堂 Mezquita-Catedral<span class="duration">（约2小时）</span></a> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Sevilla-Santa+Justa+railway+station&amp;destination=Mezquita-Catedral+de+C%C3%B3rdoba&amp;travelmode=transit&amp;waypoints=C%C3%B3rdoba+railway+station" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>优先订10:00左右付费票；行李不要带进老城。（参考<a class="inline-ref" href="#lp-cor-walk">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>大清真寺 / 犹太区 Mezquita / Judería：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa Pepe de la Judería</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Garum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Garum 2.1</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+El+Pisto%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa El Pisto</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>大清真寺 / 犹太区 Mezquita / Judería：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa Pepe de la Judería</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Garum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Garum 2.1</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+El+Pisto%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa El Pisto</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">犹太区 La Judería<span class="duration">（60–90分钟）</span></span><span class="move">→ 步行约0.2–0.5km →</span><a class="stop ticket-link" href="https://alcazardelosreyescristianos.sacatuentrada.es/en" target="_blank" rel="noopener" title="打开官方订票页面">基督教君主城堡 Alcázar de los Reyes Cristianos<span class="duration">（60–75分钟 · 视时间）</span></a><span class="move">→ 步行约0.5km →</span><span class="stop">罗马桥 Puente Romano<span class="duration">（30–45分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mezquita-Catedral+de+C%C3%B3rdoba&amp;destination=Puente+Romano+de+C%C3%B3rdoba&amp;travelmode=walking&amp;waypoints=Juder%C3%ADa+de+C%C3%B3rdoba%7CAlc%C3%A1zar+de+los+Reyes+Cristianos+C%C3%B3rdoba" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>Lonely Planet完整版环线较长；城堡可提前购票，也可视开放和车次现场调整；车次早时先删除城堡 Alcázar。（参考<a class="inline-ref" href="#lp-cor-walk">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>犹太区 / 中心区 Judería / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa Pepe de la Judería</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Garum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Garum 2.1</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Burlaero%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">El Burlaero</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>犹太区 / 中心区 Judería / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Casa Pepe de la Judería</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Garum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">Garum 2.1</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Burlaero%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">El Burlaero</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">科尔多瓦站 Córdoba Station<span class="duration">（取行李+候车约30分钟）</span></span><span class="move">→ 出租车约2.5km / 10–15分钟 →</span><span class="stop">格拉纳达站 Granada Station<span class="duration">（火车约1.5–2小时）</span></span><span class="move">→ 火车 Train →</span><span class="stop">新广场 / 中心区 Plaza Nueva / Centro<span class="duration">（入住+简单tapas）</span></span><span class="move">→ 出租车约2km / 10分钟 →</span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Puente+Romano+de+C%C3%B3rdoba&amp;destination=Plaza+Nueva+Granada&amp;travelmode=transit&amp;waypoints=C%C3%B3rdoba+railway+station%7CGranada+railway+station" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>至少提前30分钟回科尔多瓦站取行李。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉纳达中心区 Granada Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Omka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Omka Kool</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Botillería</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉纳达中心区 Granada Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Omka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Omka Kool</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Botillería</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-03" data-date="2026-10-03" data-search="格拉纳达 Granada 中心区 / 新广场 Centro / Plaza Nueva">
@@ -588,37 +625,39 @@
           <div class="day-meta">住：格拉纳达 Granada · 推荐区域：中心区 / 新广场 Centro / Plaza Nueva</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://tickets.alhambra-patronato.es/en/" target="_blank" rel="noopener" title="打开官方订票页面">阿尔罕布拉宫 Alhambra</a><span class="move">→ C30小巴约2km上坡 / 15–20分钟 →</span><span class="stop">阿尔卡萨瓦城堡 Alcazaba<span class="duration">（45–60分钟）</span></span><span class="move">→ 园内步行约0.2–0.4km →</span><span class="stop">查理五世宫 Palacio de Carlos V<span class="duration">（30–45分钟）</span></span><span class="move">→ 园内步行 →</span><a class="stop ticket-link" href="https://tickets.alhambra-patronato.es/en/" target="_blank" rel="noopener" title="打开官方订票页面">纳斯里德宫 Palacios Nazaríes<span class="duration">（约90分钟 · 按票面时段）</span></a> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Plaza+Nueva+Granada&amp;destination=Palacios+Nazar%C3%ADes+Granada&amp;travelmode=transit&amp;waypoints=Alcazaba+Alhambra+Granada%7CPalacio+de+Carlos+V+Granada" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>纳斯里德宫提前30–45分钟到入口，带与票面一致证件。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔罕布拉宫 Alhambra 周边简餐；不安排正式餐厅</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔罕布拉宫 Alhambra 周边简餐；不安排正式餐厅</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">帕塔尔花园 El Partal<span class="duration">（约30分钟）</span></span><span class="move">→ 步行约0.4km →</span><span class="stop">赫内拉利费 Generalife<span class="duration">（75–90分钟）</span></span><span class="move">→ 步行约0.8km →</span><span class="stop">中心区 Centro<span class="duration">（下山约30分钟）</span></span><span class="move">→ C30小巴 / 出租车 →</span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Palacios+Nazar%C3%ADes+Granada&amp;destination=Plaza+Nueva+Granada&amp;travelmode=transit&amp;waypoints=El+Partal+Granada%7CGeneralife+Granada" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>园区顺序必须服从纳斯里德宫票面时间；整座Alhambra约5–6小时。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>园区简餐；晚餐可提前预约 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Faral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Faralá</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Damasqueros%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Damasqueros</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>园区简餐；晚餐可提前预约 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Faral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Faralá</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Damasqueros%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Damasqueros</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">新广场 / 中心区 Plaza Nueva / Centro<span class="duration">（tapas 1.5–2小时）</span></span><span class="move">→ 酒店步行圈约0.3–1km →</span><span class="stop">酒店 Hotel<span class="duration">（早休息）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Plaza+Nueva+Granada&amp;destination=La+Botiller%C3%ADa+Granada&amp;travelmode=walking" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>前三家建议预约；想省心吃一晚，可用 tapas 导览替代自由晚餐。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 / 阿尔拜辛 Centro / Albayzín：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Faral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Faralá</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Botillería</a>；或 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Granada+Tapas+Tours+Granada" target="_blank" rel="noopener">Granada Tapas Tours</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Spain+Food+Sherpas+Granada" target="_blank" rel="noopener">Spain Food Sherpas</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 / 阿尔拜辛 Centro / Albayzín：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Faral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Faralá</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Botillería</a>；或 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Granada+Tapas+Tours+Granada" target="_blank" rel="noopener">Granada Tapas Tours</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Spain+Food+Sherpas+Granada" target="_blank" rel="noopener">Spain Food Sherpas</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-04" data-date="2026-10-04" data-search="格拉纳达 Granada 中心区 / 新广场 Centro / Plaza Nueva">
@@ -629,37 +668,39 @@
           <div class="day-meta">住：格拉纳达 Granada · 推荐区域：中心区 / 新广场 Centro / Plaza Nueva</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://ticketsgranadacristiana.com/en/monumentos/catedral-granada/" target="_blank" rel="noopener" title="打开官方订票页面">格拉纳达主教座堂 Catedral de Granada<span class="duration">（外观15分钟）</span></a><span class="move">→ 步行约0.1km →</span><a class="stop ticket-link" href="https://ticketsgranadacristiana.com/en/monumentos/capilla-real-de-granada/" target="_blank" rel="noopener" title="打开官方订票页面">皇家礼拜堂 Capilla Real<span class="duration">（45–60分钟 · 11:30后）</span></a><span class="move">→ 步行约0.2km →</span><span class="stop">优素福伊斯兰学校 Madrasa Yusufia<span class="duration">（约30分钟）</span></span><span class="move">→ 步行约0.4km →</span><span class="stop">煤炭庭院 Corral del Carbón<span class="duration">（20–30分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Catedral+de+Granada&amp;destination=Corral+del+Carb%C3%B3n+Granada&amp;travelmode=walking&amp;waypoints=Capilla+Real+de+Granada%7CPalacio+de+la+Madraza+Granada" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>周日皇家礼拜堂11:30开放；主教座堂室内15:00开放。（参考<a class="inline-ref" href="#lp-grx-centro">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Provincias</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Omka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Omka Kool</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>中心区 Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Provincias</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Omka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Omka Kool</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><a class="stop ticket-link" href="https://ticketsgranadacristiana.com/en/monumentos/catedral-granada/" target="_blank" rel="noopener" title="打开官方订票页面">格拉纳达主教座堂 Catedral de Granada<span class="duration">（室内60–75分钟 · 15:00后）</span></a><span class="move">→ 步行约0.6km →</span><span class="stop">新广场 Plaza Nueva<span class="duration">（约15分钟）</span></span><span class="move">→ 步行约0.5km →</span><span class="stop">阿拉伯浴场 El Bañuelo<span class="duration">（30–45分钟）</span></span><span class="move">→ 步行 →</span><span class="stop">达罗河街 Carrera del Darro<span class="duration">（约30分钟）</span></span><span class="move">→ 上坡约1km →</span><span class="stop">萨尔瓦多教堂 Colegiata del Salvador<span class="duration">（约30分钟）</span></span><span class="move">→ 步行约0.4km →</span><span class="stop">圣尼古拉斯观景台 Mirador de San Nicolás<span class="duration">（日落前45–60分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Catedral+de+Granada&amp;destination=Mirador+de+San+Nicol%C3%A1s+Granada&amp;travelmode=walking&amp;waypoints=Plaza+Nueva+Granada%7CEl+Ba%C3%B1uelo+Granada%7CColegiata+del+Salvador+Granada" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>这是Lonely Planet阿尔拜辛路线精简版；圣尼古拉斯观景台无需预约，完整版需要一整天。（参考<a class="inline-ref" href="#lp-grx-albayzin">Lonely Planet原始推荐路线</a>）</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔拜辛区 Albayzín：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Casa Torcuato</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Provincias</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔拜辛区 Albayzín：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Casa Torcuato</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Provincias</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">阿尔拜辛区 Albayzín 晚餐<span class="duration">（约1.5小时）</span></span><span class="move">→ C34小巴/出租车约1.5km / 10–15分钟 →</span><span class="stop">萨克罗蒙特 Sacromonte zambra<span class="duration">（可选60–90分钟）</span></span><span class="move">→ 小巴/出租车返回 →</span><span class="stop">中心区 Centro</span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mirador+de+San+Nicol%C3%A1s+Granada&amp;destination=Plaza+Nueva+Granada&amp;travelmode=transit&amp;waypoints=Sacromonte+Granada" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>如果前一天体力消耗大，删除Sacromonte，直接回中心区；美食导览适合替代晚餐，不和景点硬叠加。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔拜辛 / 中心区 Albayzín / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Casa Torcuato</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Taberna+La+Tana%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Taberna La Tana</a>；或 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Granada+Tapas+Tours+Granada" target="_blank" rel="noopener">Granada Tapas Tours</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Spain+Food+Sherpas+Granada" target="_blank" rel="noopener">Spain Food Sherpas</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>阿尔拜辛 / 中心区 Albayzín / Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=El+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">El Trillo</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Casa Torcuato</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Taberna+La+Tana%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Taberna La Tana</a>；或 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Granada+Tapas+Tours+Granada" target="_blank" rel="noopener">Granada Tapas Tours</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Spain+Food+Sherpas+Granada" target="_blank" rel="noopener">Spain Food Sherpas</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-05" data-date="2026-10-05" data-search="格拉纳达 Granada → 巴塞罗那 Barcelona 首选机场酒店 Airport hotel；备选桑兹 / 扩展区 Sants / Eixample">
@@ -670,37 +711,39 @@
           <div class="day-meta">住：巴塞罗那 Barcelona · 推荐区域：首选机场酒店 Airport hotel；备选桑兹 / 扩展区 Sants / Eixample</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">雷亚莱霍 / 中心区 Realejo / Centro<span class="duration">（咖啡与补漏60–90分钟）</span></span><span class="move">→ 步行约1–2km →</span><span class="stop">酒店 Hotel<span class="duration">（退房约30分钟）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Plaza+Nueva+Granada&amp;destination=Realejo+Granada&amp;travelmode=walking" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>按航班起飞前2小时到GRX机场倒推离店。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉纳达中心区 Granada Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Finca%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Finca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sur+Coffee+Corner%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Sur Coffee Corner</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a></div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>格拉纳达中心区 Granada Centro：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Finca%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">La Finca</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sur+Coffee+Corner%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Sur Coffee Corner</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">Bar Poë</a></td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">格拉纳达机场 GRX<span class="duration">（车程25–45分钟）</span></span><span class="move">→ 出租车约20km / 25–30分钟 →</span><span class="stop">巴塞罗那机场 BCN<span class="duration">（飞行约1.5小时）</span></span><span class="move">→ 飞机 Flight →</span><span class="stop">机场酒店 Airport hotel<span class="duration">（入住约30分钟）</span></span><span class="move">→ 酒店接驳/出租车5–15分钟 →</span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Plaza+Nueva+Granada&amp;destination=Barcelona-El+Prat+Airport&amp;travelmode=transit&amp;waypoints=Federico+Garc%C3%ADa+Lorca+Granada+Airport" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>最稳方案是机场酒店；住市区必须提前约次日凌晨车辆。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机场用餐；抵达后按酒店位置选择</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机场用餐；抵达后按酒店位置选择</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">早到选项 Option A：蒙特惠奇 Montjuïc<span class="duration">（2.5–3.5小时，见路线参考）</span></span><span class="move">→ 从机场酒店/市区酒店出租车或地铁约20–45分钟 →</span><span class="stop">早到选项 Option B：巴塞罗那海边 Barceloneta / Poblenou<span class="duration">（2.5–4小时，见路线参考）</span></span><span class="move">→ 两条路线二选一，不串联；返回酒店 →</span><span class="stop">酒店 Hotel<span class="duration">（21:00前返回）</span></span> <a class="inline-map" href="#pdf-routes">路线参考↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>返程日所有晚间活动均可删；<a class="inline-ref" href="#lp-bcn-day3-montjuic">Lonely Planet原始推荐路线</a>里已拆成Montjuïc和海边两条地图。次日05:35起飞，优先睡眠。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>Sant Antoni：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Benzina+Barcelona" target="_blank" rel="noopener">Benzina</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Calders+Barcelona" target="_blank" rel="noopener">Bar Calders</a>；海边线：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+La+Peninsular%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bodega La Peninsular</a> / Can Ros；Raval备选 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Ca%C3%B1ete+Barcelona" target="_blank" rel="noopener">Cañete</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Arume+Barcelona" target="_blank" rel="noopener">Arume</a></div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>Sant Antoni：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Benzina+Barcelona" target="_blank" rel="noopener">Benzina</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Calders+Barcelona" target="_blank" rel="noopener">Bar Calders</a>；海边线：<a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bodega+La+Peninsular%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">Bodega La Peninsular</a> / Can Ros；Raval备选 <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Ca%C3%B1ete+Barcelona" target="_blank" rel="noopener">Cañete</a> / <a class="meal-link" href="https://www.google.com/maps/search/?api=1&amp;query=Arume+Barcelona" target="_blank" rel="noopener">Arume</a></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     <article class="day-card" id="day-2026-10-06" data-date="2026-10-06" data-search="巴塞罗那 Barcelona 离境 巴塞罗那机场 Barcelona-El Prat Airport">
@@ -711,37 +754,39 @@
           <div class="day-meta">离境 Departure · 推荐区域：巴塞罗那机场 Barcelona-El Prat Airport</div>
         </div>
       </header>
-      <div class="period-header" aria-hidden="true">
-        <span>时段</span><span>路线</span><span>推荐用餐</span>
-      </div>
-      <div class="periods">
-            <div class="period-row">
-              <div class="period-label">凌晨·上午</div>
-              <div class="route-cell">
+      <div class="table-wrap day-table-wrap">
+        <table class="data-table day-table">
+          <thead><tr><th>时段</th><th>路线</th><th>推荐用餐</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="period-label">凌晨·上午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">酒店 Hotel<span class="duration">（02:15–02:30出发）</span></span><span class="move">→ 机场酒店5–15分钟；市区夜间出租车25–35分钟 →</span><span class="stop">巴塞罗那机场 BCN<span class="duration">（02:45–03:00抵达）</span></span><span class="move">→ 值机/安检 →</span><span class="stop">航班 Flight<span class="duration">（05:35起飞）</span></span> <a class="inline-map" href="https://www.google.com/maps/dir/?api=1&amp;origin=Barcelona+city&amp;destination=Barcelona-El+Prat+Airport&amp;travelmode=driving" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>证件放随身包固定位置。</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>酒店早餐包 / 机场用餐</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>酒店早餐包 / 机场用餐</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">中午·下午</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">中午·下午</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">国际航程中</span> <a class="inline-map" href="https://www.google.com/maps/search/?api=1&amp;query=Barcelona-El+Prat+Airport" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>—</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机上</div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>机上</td>
+            </tr>
             
-            <div class="period-row">
-              <div class="period-label">晚上</div>
-              <div class="route-cell">
+            <tr>
+              <td class="period-label">晚上</td>
+              <td class="route-cell">
                 <div class="route-flow"><span class="stop">—</span> <a class="inline-map" href="https://www.google.com/maps/search/?api=1&amp;query=Barcelona-El+Prat+Airport" target="_blank" rel="noopener">地图↗</a></div>
                 <div class="period-note"><strong>提醒：</strong>—</div>
-              </div>
-              <div class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无需安排餐厅</div>
-            </div>
-            </div>
+              </td>
+              <td class="meal-cell"><span class="meal-label">🍴 推荐用餐</span>无需安排餐厅</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
     </article>
     
     </section>
@@ -1910,6 +1955,41 @@
   </main>
   <a class="back-top" href="#top" aria-label="返回顶部">↑</a>
   <script>
+    const body = document.body;
+    const tocToggle = document.querySelector('.toc-toggle');
+    const tocBackdrop = document.querySelector('.toc-backdrop');
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+    const syncTocButton = () => {
+      const expanded = isMobile() ? body.classList.contains('toc-open') : !body.classList.contains('nav-collapsed');
+      tocToggle.setAttribute('aria-expanded', String(expanded));
+      tocToggle.textContent = expanded && !isMobile() ? '收起' : '目录';
+      tocBackdrop.hidden = !body.classList.contains('toc-open');
+    };
+    tocToggle.addEventListener('click', () => {
+      if (isMobile()) {
+        body.classList.toggle('toc-open');
+      } else {
+        body.classList.toggle('nav-collapsed');
+      }
+      syncTocButton();
+    });
+    tocBackdrop.addEventListener('click', () => {
+      body.classList.remove('toc-open');
+      syncTocButton();
+    });
+    document.querySelectorAll('.side-toc a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMobile()) {
+          body.classList.remove('toc-open');
+          syncTocButton();
+        }
+      });
+    });
+    window.addEventListener('resize', () => {
+      if (!isMobile()) body.classList.remove('toc-open');
+      syncTocButton();
+    });
+    syncTocButton();
     const tripDates = [...document.querySelectorAll('.day-card')];
     const chips = [...document.querySelectorAll('[data-date-chip]')];
     const localDate = new Date();
@@ -1927,14 +2007,25 @@
     const sections = sectionLinks
       .map(link => document.getElementById(link.dataset.sectionLink))
       .filter(Boolean);
+    const childLinks = [...document.querySelectorAll('.toc-child[href^="#"]')];
+    const childTargets = childLinks
+      .map(link => document.getElementById(link.getAttribute('href').slice(1)))
+      .filter(Boolean);
     const setActiveSection = () => {
-      const y = window.scrollY + 150;
+      const y = window.scrollY + 80;
       let current = sections[0]?.id;
       sections.forEach(section => {
         if (section.offsetTop <= y) current = section.id;
       });
       sectionLinks.forEach(link => {
         link.classList.toggle('active-section', link.dataset.sectionLink === current);
+      });
+      let currentChild = "";
+      childTargets.forEach(target => {
+        if (target.offsetTop <= y) currentChild = target.id;
+      });
+      childLinks.forEach(link => {
+        link.classList.toggle('active-child', link.getAttribute('href') === `#${currentChild}`);
       });
     };
     setActiveSection();
