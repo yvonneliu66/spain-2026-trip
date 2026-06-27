@@ -16,7 +16,7 @@
     html{scroll-behavior:smooth;scroll-padding-top:18px}
     body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
     body.nav-collapsed{--sidebar-width:0px}
-    body{--sidebar-width:240px}
+    body{--sidebar-width:220px}
     a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
     button,input{font:inherit}
     .hero{color:white;background:linear-gradient(135deg,#c94c2f 0%,#e58b33 38%,#f2c66d 72%,#2f8f84 100%);padding:42px max(20px,calc((100vw - 1440px)/2)) 34px;margin-left:var(--sidebar-width);transition:margin-left .22s ease}
@@ -27,10 +27,11 @@
     .city-intro h2{font-size:18px;line-height:1.25;margin:0 0 8px;color:white;letter-spacing:0}
     .city-intro p{margin:0;color:rgba(255,255,255,.9);font-size:14px;line-height:1.55}
     .toc-toggle{position:fixed;left:14px;top:14px;z-index:60;border:0;border-radius:999px;background:rgba(18,59,82,.78);color:white;padding:8px 12px;font-size:13px;font-weight:850;box-shadow:0 8px 18px rgba(28,50,62,.12);cursor:pointer;backdrop-filter:blur(8px)}
-    .side-toc{position:fixed;inset:0 auto 0 0;width:240px;z-index:50;background:rgba(255,253,249,.9);border-right:1px solid rgba(220,227,229,.78);box-shadow:8px 0 22px rgba(28,50,62,.08);padding:58px 10px 18px;overflow-y:auto;transition:transform .22s ease;backdrop-filter:blur(14px)}
+    body:not(.nav-collapsed) .toc-toggle{display:none}
+    .side-toc{position:fixed;inset:0 auto 0 0;width:220px;z-index:50;background:rgba(255,253,249,.9);border-right:1px solid rgba(220,227,229,.78);box-shadow:8px 0 22px rgba(28,50,62,.08);padding:12px 8px 18px;overflow-y:auto;transition:transform .22s ease;backdrop-filter:blur(14px)}
     body.nav-collapsed .side-toc{transform:translateX(-100%)}
-    .toc-title{font-weight:900;color:rgba(18,59,82,.82);font-size:16px;line-height:1.2;margin:0 0 10px;padding:0 8px}
-    .toc-group{border-top:1px solid rgba(220,227,229,.72);padding:8px 0}
+    .toc-group{border-top:1px solid rgba(220,227,229,.72);padding:7px 0}
+    .toc-group:first-child{border-top:0;padding-top:0}
     .toc-parent,.toc-child{display:flex;align-items:center;border-radius:10px;text-decoration:none!important}
     .toc-parent{min-height:32px;padding:7px 9px;color:rgba(18,59,82,.86);font-weight:850;background:rgba(237,243,244,.72);font-size:13px}
     .toc-parent.active-section{background:rgba(18,59,82,.86);color:white}
@@ -126,15 +127,16 @@
     .back-top{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;box-shadow:var(--shadow);font-weight:900;z-index:10}
     [hidden]{display:none!important}
     @media(max-width:1050px){
-      body{--sidebar-width:220px}.side-toc{width:220px}.period-block{grid-template-columns:78px minmax(0,1fr)}
+      body{--sidebar-width:200px}.side-toc{width:200px}.period-block{grid-template-columns:78px minmax(0,1fr)}
       .period-block .meal-cell{grid-column:2;border-top:1px dashed var(--line);background:#faf8f3}
     }
     @media(max-width:760px){
       html{scroll-padding-top:14px}body{font-size:14px;--sidebar-width:0px}.hero{padding:64px 18px 24px;margin-left:0}.hero h1{font-size:38px}
+      body:not(.nav-collapsed) .toc-toggle{display:block}
       .toc-toggle{left:10px;top:10px;padding:7px 10px;font-size:12px;opacity:.82}
-      .side-toc{width:min(43vw,172px);transform:translateX(-100%);padding:42px 7px 12px;background:rgba(255,253,249,.82)}
+      .side-toc{width:min(38vw,152px);transform:translateX(-100%);padding:10px 6px 12px;background:rgba(255,253,249,.82)}
       body.toc-open .toc-toggle{display:none}
-      .toc-title{font-size:13px;margin-bottom:6px}.toc-group{padding:6px 0}
+      .toc-group{padding:5px 0}
       .toc-parent{min-height:27px;padding:6px 6px;font-size:12px;border-radius:8px}
       .toc-children{gap:2px;padding-left:4px}
       .toc-child{padding:4px 5px;font-size:11px;line-height:1.24;border-radius:7px}
@@ -196,7 +198,6 @@
   <button class="toc-toggle" type="button" aria-label="显示或隐藏目录" aria-expanded="true">目录</button>
   <div class="toc-backdrop" hidden></div>
   <nav class="side-toc" aria-label="页面目录">
-    <div class="toc-title">Spain 2026<br>行程目录</div>
     <div class="toc-group">
       <a class="toc-parent" href="#overview" data-section-link="overview">行程概览</a>
     </div>
@@ -1945,7 +1946,7 @@
     const syncTocButton = () => {
       const expanded = isMobile() ? body.classList.contains('toc-open') : !body.classList.contains('nav-collapsed');
       tocToggle.setAttribute('aria-expanded', String(expanded));
-      tocToggle.textContent = expanded && !isMobile() ? '收起' : '目录';
+      tocToggle.textContent = '目录';
       tocBackdrop.hidden = !body.classList.contains('toc-open');
     };
     tocToggle.addEventListener('click', () => {
