@@ -16,7 +16,7 @@
     html{scroll-behavior:smooth;scroll-padding-top:18px}
     body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
     body.nav-collapsed{--sidebar-width:0px}
-    body{--sidebar-width:260px}
+    body{--sidebar-width:240px}
     a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
     button,input{font:inherit}
     .hero{color:white;background:linear-gradient(135deg,#c94c2f 0%,#e58b33 38%,#f2c66d 72%,#2f8f84 100%);padding:42px max(20px,calc((100vw - 1440px)/2)) 34px;margin-left:var(--sidebar-width);transition:margin-left .22s ease}
@@ -27,7 +27,7 @@
     .city-intro h2{font-size:18px;line-height:1.25;margin:0 0 8px;color:white;letter-spacing:0}
     .city-intro p{margin:0;color:rgba(255,255,255,.9);font-size:14px;line-height:1.55}
     .toc-toggle{position:fixed;left:14px;top:14px;z-index:60;border:0;border-radius:999px;background:rgba(18,59,82,.78);color:white;padding:8px 12px;font-size:13px;font-weight:850;box-shadow:0 8px 18px rgba(28,50,62,.12);cursor:pointer;backdrop-filter:blur(8px)}
-    .side-toc{position:fixed;inset:0 auto 0 0;width:260px;z-index:50;background:rgba(255,253,249,.9);border-right:1px solid rgba(220,227,229,.78);box-shadow:8px 0 22px rgba(28,50,62,.08);padding:58px 12px 18px;overflow-y:auto;transition:transform .22s ease;backdrop-filter:blur(14px)}
+    .side-toc{position:fixed;inset:0 auto 0 0;width:240px;z-index:50;background:rgba(255,253,249,.9);border-right:1px solid rgba(220,227,229,.78);box-shadow:8px 0 22px rgba(28,50,62,.08);padding:58px 10px 18px;overflow-y:auto;transition:transform .22s ease;backdrop-filter:blur(14px)}
     body.nav-collapsed .side-toc{transform:translateX(-100%)}
     .toc-title{font-weight:900;color:rgba(18,59,82,.82);font-size:16px;line-height:1.2;margin:0 0 10px;padding:0 8px}
     .toc-group{border-top:1px solid rgba(220,227,229,.72);padding:8px 0}
@@ -126,17 +126,20 @@
     .back-top{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;box-shadow:var(--shadow);font-weight:900;z-index:10}
     [hidden]{display:none!important}
     @media(max-width:1050px){
-      body{--sidebar-width:230px}.side-toc{width:230px}.period-block{grid-template-columns:78px minmax(0,1fr)}
+      body{--sidebar-width:220px}.side-toc{width:220px}.period-block{grid-template-columns:78px minmax(0,1fr)}
       .period-block .meal-cell{grid-column:2;border-top:1px dashed var(--line);background:#faf8f3}
     }
     @media(max-width:760px){
       html{scroll-padding-top:14px}body{font-size:14px;--sidebar-width:0px}.hero{padding:64px 18px 24px;margin-left:0}.hero h1{font-size:38px}
       .toc-toggle{left:10px;top:10px;padding:7px 10px;font-size:12px;opacity:.82}
-      .side-toc{width:min(56vw,220px);transform:translateX(-100%);padding:50px 9px 14px;background:rgba(255,253,249,.82)}
+      .side-toc{width:min(43vw,172px);transform:translateX(-100%);padding:42px 7px 12px;background:rgba(255,253,249,.82)}
+      body.toc-open .toc-toggle{display:none}
       .toc-title{font-size:13px;margin-bottom:6px}.toc-group{padding:6px 0}
-      .toc-parent{min-height:28px;padding:6px 7px;font-size:12px;border-radius:8px}
-      .toc-children{gap:2px;padding-left:5px}
-      .toc-child{padding:4px 6px;font-size:11px;line-height:1.25;border-radius:7px}
+      .toc-parent{min-height:27px;padding:6px 6px;font-size:12px;border-radius:8px}
+      .toc-children{gap:2px;padding-left:4px}
+      .toc-child{padding:4px 5px;font-size:11px;line-height:1.24;border-radius:7px}
+      .toc-child:hover{background:transparent;color:rgba(82,99,109,.82);border-left-color:transparent}
+      .toc-child.active-child{background:rgba(255,247,232,.9);color:#9a5a12;border-left-color:var(--sun)}
       body.toc-open .side-toc{transform:translateX(0)}
       body.toc-open .toc-backdrop{opacity:1;pointer-events:auto}
       body.nav-collapsed .side-toc{transform:translateX(-100%)}
@@ -199,15 +202,15 @@
     </div>
     <div class="toc-group">
       <a class="toc-parent" href="#itinerary" data-section-link="itinerary">每日行程</a>
-      <div class="toc-children"><a class="toc-child" href="#day-2026-09-26">9.26 周六 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-27">9.27 周日 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-28">9.28 周一 · 巴塞罗那</a><a class="toc-child" href="#day-2026-09-29">9.29 周二 · 塞维利亚</a><a class="toc-child" href="#day-2026-09-30">9.30 周三 · 塞维利亚</a><a class="toc-child" href="#day-2026-10-01">10.1 周四 · 塞维利亚</a><a class="toc-child" href="#day-2026-10-02">10.2 周五 · 科尔多瓦</a><a class="toc-child" href="#day-2026-10-03">10.3 周六 · 格拉纳达</a><a class="toc-child" href="#day-2026-10-04">10.4 周日 · 格拉纳达</a><a class="toc-child" href="#day-2026-10-05">10.5 周一 · 巴塞罗那</a><a class="toc-child" href="#day-2026-10-06">10.6 周二 · 巴塞罗那</a></div>
+      <div class="toc-children"><a class="toc-child" data-toc-section="itinerary" href="#day-2026-09-26">9.26 周六 · 巴塞罗那</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-09-27">9.27 周日 · 巴塞罗那</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-09-28">9.28 周一 · 巴塞罗那</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-09-29">9.29 周二 · 塞维利亚</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-09-30">9.30 周三 · 塞维利亚</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-01">10.1 周四 · 塞维利亚</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-02">10.2 周五 · 科尔多瓦</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-03">10.3 周六 · 格拉纳达</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-04">10.4 周日 · 格拉纳达</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-05">10.5 周一 · 巴塞罗那</a><a class="toc-child" data-toc-section="itinerary" href="#day-2026-10-06">10.6 周二 · 巴塞罗那</a></div>
     </div>
     <div class="toc-group">
       <a class="toc-parent" href="#restaurants" data-section-link="restaurants">餐厅推荐</a>
-      <div class="toc-children"><a class="toc-child" href="#restaurants-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" href="#restaurants-seville">塞维利亚 Seville</a><a class="toc-child" href="#restaurants-cordoba">科尔多瓦 Córdoba</a><a class="toc-child" href="#restaurants-granada">格拉纳达 Granada</a></div>
+      <div class="toc-children"><a class="toc-child" data-toc-section="restaurants" href="#restaurants-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" data-toc-section="restaurants" href="#restaurants-seville">塞维利亚 Seville</a><a class="toc-child" data-toc-section="restaurants" href="#restaurants-cordoba">科尔多瓦 Córdoba</a><a class="toc-child" data-toc-section="restaurants" href="#restaurants-granada">格拉纳达 Granada</a></div>
     </div>
     <div class="toc-group">
       <a class="toc-parent" href="#hotels" data-section-link="hotels">住宿推荐</a>
-      <div class="toc-children"><a class="toc-child" href="#hotels-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" href="#hotels-seville">塞维利亚 Seville</a><a class="toc-child" href="#hotels-granada">格拉纳达 Granada</a></div>
+      <div class="toc-children"><a class="toc-child" data-toc-section="hotels" href="#hotels-barcelona">巴塞罗那 Barcelona</a><a class="toc-child" data-toc-section="hotels" href="#hotels-seville">塞维利亚 Seville</a><a class="toc-child" data-toc-section="hotels" href="#hotels-granada">格拉纳达 Granada</a></div>
     </div>
     <div class="toc-group">
       <a class="toc-parent" href="#pdf-routes" data-section-link="pdf-routes">Lonely Planet路线</a>
@@ -777,7 +780,7 @@
     <section class="city-group" id="restaurants-barcelona" data-filter-group>
       <div class="city-group-head">
         <div><h3>巴塞罗那 Barcelona</h3><span>24 家参考</span></div>
-        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mercat+de+la+Boqueria%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain&amp;destination=Right+Side+Coffee+Bar%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain&amp;travelmode=walking&amp;waypoints=Bar+Quiosc+Modern%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CEl+Quim%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CKiosko+Universal%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CCan+Culleretes%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CEls+Quatre+Gats%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CBar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CLa+Alcoba+Azul%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CBoadas+Cocktails%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">推荐清单地图</a>
+        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mercat+de+la+Boqueria%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain&amp;destination=Right+Side+Coffee+Bar%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain&amp;travelmode=walking&amp;waypoints=Bar+Quiosc+Modern%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CEl+Quim%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CKiosko+Universal%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CCan+Culleretes%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CEls+Quatre+Gats%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CBar+Mono%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CLa+Alcoba+Azul%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain%7CBoadas+Cocktails%2C+%E5%B7%B4%E5%A1%9E%E7%BD%97%E9%82%A3%2C+Spain" target="_blank" rel="noopener">前10家地图路线</a>
       </div>
       <div class="table-wrap">
         <table class="data-table restaurant-table">
@@ -982,7 +985,7 @@
     <section class="city-group" id="restaurants-seville" data-filter-group>
       <div class="city-group-head">
         <div><h3>塞维利亚 Seville</h3><span>16 家参考</span></div>
-        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain&amp;destination=Bar+Postiguillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain&amp;travelmode=walking&amp;waypoints=Bodega+D%C3%ADaz-Salazar%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CBodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CAntigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CEl+Rinconcillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CBar+Alfalfa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CPETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CLa+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CMamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">推荐清单地图</a>
+        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Casa+Morales%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain&amp;destination=Bar+Postiguillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain&amp;travelmode=walking&amp;waypoints=Bodega+D%C3%ADaz-Salazar%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CBodega+Santa+Cruz%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CAntigua+Taberna+de+Las+Escobas%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CEl+Rinconcillo%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CBar+Alfalfa%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CPETRA%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CLa+Brunilda%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain%7CMamarracha%2C+%E5%A1%9E%E7%BB%B4%E5%88%A9%E4%BA%9A%2C+Spain" target="_blank" rel="noopener">前10家地图路线</a>
       </div>
       <div class="table-wrap">
         <table class="data-table restaurant-table">
@@ -1123,7 +1126,7 @@
     <section class="city-group" id="restaurants-cordoba" data-filter-group>
       <div class="city-group-head">
         <div><h3>科尔多瓦 Córdoba</h3><span>7 家参考</span></div>
-        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain&amp;destination=Nuur%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain&amp;travelmode=walking&amp;waypoints=Casa+El+Pisto%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CEl+Burlaero%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CGarum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CLa+Cuchara+de+San+Lorenzo%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CChoco%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">推荐清单地图</a>
+        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Casa+Pepe+de+la+Juder%C3%ADa%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain&amp;destination=Nuur%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain&amp;travelmode=walking&amp;waypoints=Casa+El+Pisto%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CEl+Burlaero%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CGarum+2.1%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CLa+Cuchara+de+San+Lorenzo%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain%7CChoco%2C+%E7%A7%91%E5%B0%94%E5%A4%9A%E7%93%A6%2C+Spain" target="_blank" rel="noopener">前10家地图路线</a>
       </div>
       <div class="table-wrap">
         <table class="data-table restaurant-table">
@@ -1192,7 +1195,7 @@
     <section class="city-group" id="restaurants-granada" data-filter-group>
       <div class="city-group-head">
         <div><h3>格拉纳达 Granada</h3><span>12 家参考</span></div>
-        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain&amp;destination=Sur+Coffee+Corner%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain&amp;travelmode=walking&amp;waypoints=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7COmka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CDamasqueros%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CEl+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CFaral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CLa+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CCasa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CLa+Finca%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">推荐清单地图</a>
+        <a class="outline-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Bar+Po%C3%AB%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain&amp;destination=Sur+Coffee+Corner%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain&amp;travelmode=walking&amp;waypoints=Bar+Provincias%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7COmka+Kool%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CDamasqueros%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CEl+Trillo%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CFaral%C3%A1%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CLa+Botiller%C3%ADa%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CCasa+Torcuato%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain%7CLa+Finca%2C+%E6%A0%BC%E6%8B%89%E7%BA%B3%E8%BE%BE%2C+Spain" target="_blank" rel="noopener">前10家地图路线</a>
       </div>
       <div class="table-wrap">
         <table class="data-table restaurant-table">
@@ -2002,10 +2005,14 @@
       });
       let currentChild = "";
       childTargets.forEach(target => {
-        if (target.offsetTop <= y) currentChild = target.id;
+        const link = document.querySelector(`.toc-child[href="#${target.id}"]`);
+        if (link?.dataset.tocSection === current && target.offsetTop <= y) currentChild = target.id;
       });
       childLinks.forEach(link => {
-        link.classList.toggle('active-child', link.getAttribute('href') === `#${currentChild}`);
+        link.classList.toggle(
+          'active-child',
+          link.dataset.tocSection === current && link.getAttribute('href') === `#${currentChild}`
+        );
       });
       const activeChild = document.querySelector('.toc-child.active-child');
       const toc = document.querySelector('.side-toc');
